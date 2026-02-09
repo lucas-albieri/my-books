@@ -1,28 +1,38 @@
 "use client";
 
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+
+type LoginFormData = {
+    email: string;
+    password: string;
+};
 
 export default function LoginPage() {
     const router = useRouter();
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
 
-    async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-        e.preventDefault();
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm<LoginFormData>();
+
+    async function onSubmit(data: LoginFormData) {
         setLoading(true);
         setError("");
 
-        const formData = new FormData(e.currentTarget);
-        const email = formData.get("email") as string;
-        const password = formData.get("password") as string;
-
         try {
             const result = await signIn("credentials", {
-                email,
-                password,
+                email: data.email,
+                password: data.password,
                 redirect: false,
             });
 
@@ -52,39 +62,47 @@ export default function LoginPage() {
                         </p>
                     </div>
 
-                    <form onSubmit={handleSubmit} className="space-y-6">
-                        <div>
-                            <label
-                                htmlFor="email"
-                                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
-                            >
-                                Email
-                            </label>
-                            <input
+                    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+                        <div className="space-y-2">
+                            <Label htmlFor="email">Email</Label>
+                            <Input
                                 id="email"
-                                name="email"
                                 type="email"
-                                required
-                                className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
                                 placeholder="seu@email.com"
+                                {...register("email", {
+                                    required: "Email é obrigatório",
+                                    pattern: {
+                                        value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                                        message: "Email inválido",
+                                    },
+                                })}
                             />
+                            {errors.email && (
+                                <p className="text-sm text-red-600 dark:text-red-400">
+                                    {errors.email.message}
+                                </p>
+                            )}
                         </div>
 
-                        <div>
-                            <label
-                                htmlFor="password"
-                                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
-                            >
-                                Senha
-                            </label>
-                            <input
+                        <div className="space-y-2">
+                            <Label htmlFor="password">Senha</Label>
+                            <Input
                                 id="password"
-                                name="password"
                                 type="password"
-                                required
-                                className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
                                 placeholder="••••••••"
+                                {...register("password", {
+                                    required: "Senha é obrigatória",
+                                    minLength: {
+                                        value: 6,
+                                        message: "Senha deve ter no mínimo 6 caracteres",
+                                    },
+                                })}
                             />
+                            {errors.password && (
+                                <p className="text-sm text-red-600 dark:text-red-400">
+                                    {errors.password.message}
+                                </p>
+                            )}
                         </div>
 
                         {error && (
@@ -93,13 +111,9 @@ export default function LoginPage() {
                             </div>
                         )}
 
-                        <button
-                            type="submit"
-                            disabled={loading}
-                            className="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-semibold rounded-lg transition-colors shadow-lg hover:shadow-xl disabled:cursor-not-allowed"
-                        >
+                        <Button type="submit" disabled={loading} className="w-full">
                             {loading ? "Entrando..." : "Entrar"}
-                        </button>
+                        </Button>
                     </form>
 
                     <div className="mt-6 text-center">

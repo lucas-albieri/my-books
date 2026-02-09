@@ -1,6 +1,14 @@
-import NextAuth from "next-auth";
+import NextAuth, { type DefaultSession } from "next-auth";
 import type { NextAuthConfig } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
+
+declare module "next-auth" {
+    interface Session {
+        user: {
+            id: string;
+        } & DefaultSession["user"];
+    }
+}
 
 export const authConfig = {
     providers: [
@@ -42,4 +50,6 @@ export const authConfig = {
     },
 } satisfies NextAuthConfig;
 
-export const { handlers, auth, signIn, signOut } = NextAuth(authConfig);
+const { handlers, auth, signIn, signOut } = NextAuth(authConfig);
+
+export { handlers, auth, signIn, signOut };

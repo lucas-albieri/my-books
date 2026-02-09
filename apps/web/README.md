@@ -6,9 +6,12 @@ Frontend do projeto My Books, um gerenciador pessoal de livros.
 
 - **Next.js 16** - Framework React
 - **Tailwind CSS** - Estilização
+- **Ark UI** - Componentes UI headless e acessíveis
+- **React Hook Form** - Gerenciamento de formulários
 - **NextAuth v5** - Autenticação
 - **TypeScript** - Tipagem estática
 - **Bun** - Runtime e package manager
+- **Google Fonts** - Inter e Poppins
 
 ## 📋 Pré-requisitos
 
@@ -58,15 +61,33 @@ Abra [http://localhost:3000](http://localhost:3000) no navegador.
 
 ```
 app/
-├── login/              # Página de login
-├── dashboard/          # Dashboard principal
+├── (autenticacao)/
+│   └── login/          # Página de login
+├── (protegido)/
+│   └── dashboard/      # Dashboard principal
 ├── api/
 │   └── auth/          # Rotas NextAuth
 ├── layout.tsx         # Layout principal
 └── page.tsx           # Página inicial
 
+components/
+├── ui/                # Componentes UI reutilizáveis
+│   ├── button.tsx     # Botão com variantes
+│   ├── input.tsx      # Campo de entrada
+│   ├── label.tsx      # Label para formulários
+│   ├── card.tsx       # Componente Card
+│   ├── dialog.tsx     # Dialog/Modal (Ark UI)
+│   ├── select.tsx     # Select dropdown (Ark UI)
+│   └── textarea.tsx   # Área de texto
+└── add-book-dialog.tsx # Dialog para adicionar livros
+
 lib/
-└── auth.ts            # Configuração NextAuth
+├── auth.ts            # Configuração NextAuth
+└── utils.ts           # Utilitários (cn, etc)
+
+docs/
+├── components-guide.md # Guia de componentes UI
+└── fonts-guide.tsx     # Guia de fontes
 
 middleware.ts          # Middleware de autenticação
 ```
@@ -92,7 +113,16 @@ Para usar em produção, configure outros providers no arquivo [lib/auth.ts](lib
 ✅ Responsive design  
 ✅ Autenticação com NextAuth v5  
 ✅ TypeScript  
-✅ Fontes otimizadas (Geist Sans e Geist Mono)  
+✅ Fontes Google (Inter e Poppins)  
+✅ Componentes UI com Ark UI  
+✅ Formulários com React Hook Form  
+✅ Sistema de validação robusto  
+✅ Componentes reutilizáveis (Button, Input, Card, Dialog, etc)  
+
+## 📚 Documentação
+
+- **[Guia de Componentes](docs/components-guide.md)** - Como usar os componentes UI
+- **[Guia de Fontes](docs/fonts-guide.tsx)** - Configuração e uso das fontes  
 
 ## 📝 TODO
 

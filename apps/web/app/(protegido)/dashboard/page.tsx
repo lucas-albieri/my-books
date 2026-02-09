@@ -1,6 +1,9 @@
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import Link from "next/link";
+import { AddBookDialog } from "@/components/add-book-dialog";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 
 export default async function DashboardPage() {
     const session = await auth();
@@ -43,61 +46,69 @@ export default async function DashboardPage() {
                 </div>
 
                 <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                    <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg">
-                        <div className="flex items-center justify-between mb-4">
-                            <h3 className="text-gray-600 dark:text-gray-400 font-medium">
-                                Total de Livros
-                            </h3>
-                            <div className="text-3xl">📚</div>
-                        </div>
-                        <p className="text-3xl font-bold text-gray-900 dark:text-white">0</p>
-                    </div>
+                    <Card>
+                        <CardContent className="p-6">
+                            <div className="flex items-center justify-between mb-4">
+                                <h3 className="text-gray-600 dark:text-gray-400 font-medium">
+                                    Total de Livros
+                                </h3>
+                                <div className="text-3xl">📚</div>
+                            </div>
+                            <p className="text-3xl font-bold text-gray-900 dark:text-white">0</p>
+                        </CardContent>
+                    </Card>
 
-                    <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg">
-                        <div className="flex items-center justify-between mb-4">
-                            <h3 className="text-gray-600 dark:text-gray-400 font-medium">
-                                Lendo
-                            </h3>
-                            <div className="text-3xl">📖</div>
-                        </div>
-                        <p className="text-3xl font-bold text-gray-900 dark:text-white">0</p>
-                    </div>
+                    <Card>
+                        <CardContent className="p-6">
+                            <div className="flex items-center justify-between mb-4">
+                                <h3 className="text-gray-600 dark:text-gray-400 font-medium">
+                                    Lendo
+                                </h3>
+                                <div className="text-3xl">📖</div>
+                            </div>
+                            <p className="text-3xl font-bold text-gray-900 dark:text-white">0</p>
+                        </CardContent>
+                    </Card>
 
-                    <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg">
-                        <div className="flex items-center justify-between mb-4">
-                            <h3 className="text-gray-600 dark:text-gray-400 font-medium">
-                                Lidos
-                            </h3>
-                            <div className="text-3xl">✅</div>
-                        </div>
-                        <p className="text-3xl font-bold text-gray-900 dark:text-white">0</p>
-                    </div>
+                    <Card>
+                        <CardContent className="p-6">
+                            <div className="flex items-center justify-between mb-4">
+                                <h3 className="text-gray-600 dark:text-gray-400 font-medium">
+                                    Lidos
+                                </h3>
+                                <div className="text-3xl">✅</div>
+                            </div>
+                            <p className="text-3xl font-bold text-gray-900 dark:text-white">0</p>
+                        </CardContent>
+                    </Card>
 
-                    <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg">
-                        <div className="flex items-center justify-between mb-4">
-                            <h3 className="text-gray-600 dark:text-gray-400 font-medium">
-                                Para Ler
-                            </h3>
-                            <div className="text-3xl">📋</div>
-                        </div>
-                        <p className="text-3xl font-bold text-gray-900 dark:text-white">0</p>
-                    </div>
+                    <Card>
+                        <CardContent className="p-6">
+                            <div className="flex items-center justify-between mb-4">
+                                <h3 className="text-gray-600 dark:text-gray-400 font-medium">
+                                    Para Ler
+                                </h3>
+                                <div className="text-3xl">📋</div>
+                            </div>
+                            <p className="text-3xl font-bold text-gray-900 dark:text-white">0</p>
+                        </CardContent>
+                    </Card>
                 </div>
 
-                <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8">
-                    <div className="text-center py-12">
-                        <div className="text-6xl mb-4">📚</div>
-                        <h3 className="text-2xl font-bold font-heading text-gray-900 dark:text-white mb-2">
-                            Nenhum livro ainda
-                        </h3>
-                        <p className="text-gray-600 dark:text-gray-300 mb-6">
-                            Comece adicionando seu primeiro livro à coleção
-                        </p>
-                        <button className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-lg hover:shadow-xl">
-                            Adicionar Livro
-                        </button>
-                    </div>
-                </div>
+                <Card>
+                    <CardContent className="p-8">
+                        <div className="text-center py-12">
+                            <div className="text-6xl mb-4">📚</div>
+                            <h3 className="text-2xl font-bold font-heading text-gray-900 dark:text-white mb-2">
+                                Nenhum livro ainda
+                            </h3>
+                            <p className="text-gray-600 dark:text-gray-300 mb-6">
+                                Comece adicionando seu primeiro livro à coleção
+                            </p>
+                            <AddBookDialog />
+                        </div>
+                    </CardContent>
+                </Card>
             </main>
         </div>
     );
