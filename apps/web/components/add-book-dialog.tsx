@@ -19,7 +19,7 @@ import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Textarea } from "./ui/textarea";
 import { api } from "../lib/api";
-import { bookSchema } from "../lib/schemas";
+import { bookSchema } from "../schemas/schemas";
 import type { z } from "zod";
 
 type BookFormData = z.infer<typeof bookSchema>;
