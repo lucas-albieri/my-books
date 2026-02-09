@@ -1,101 +1,102 @@
-import Image, { type ImageProps } from "next/image";
-import { Button } from "@repo/ui/button";
-import styles from "./page.module.css";
+import Link from "next/link";
+import { auth } from "@/lib/auth";
 
-type Props = Omit<ImageProps, "src"> & {
-  srcLight: string;
-  srcDark: string;
-};
-
-const ThemeImage = (props: Props) => {
-  const { srcLight, srcDark, ...rest } = props;
+export default async function Home() {
+  const session = await auth();
 
   return (
-    <>
-      <Image {...rest} src={srcLight} className="imgLight" />
-      <Image {...rest} src={srcDark} className="imgDark" />
-    </>
-  );
-};
-
-export default function Home() {
-  return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <ThemeImage
-          className={styles.logo}
-          srcLight="turborepo-dark.svg"
-          srcDark="turborepo-light.svg"
-          alt="Turborepo logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol>
-          <li>
-            Get started by editing <code>apps/web/app/page.tsx</code>
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new/clone?demo-description=Learn+to+implement+a+monorepo+with+a+two+Next.js+sites+that+has+installed+three+local+packages.&demo-image=%2F%2Fimages.ctfassets.net%2Fe5382hct74si%2F4K8ZISWAzJ8X1504ca0zmC%2F0b21a1c6246add355e55816278ef54bc%2FBasic.png&demo-title=Monorepo+with+Turborepo&demo-url=https%3A%2F%2Fexamples-basic-web.vercel.sh%2F&from=templates&project-name=Monorepo+with+Turborepo&repository-name=monorepo-turborepo&repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fturborepo%2Ftree%2Fmain%2Fexamples%2Fbasic&root-directory=apps%2Fdocs&skippable-integrations=1&teamSlug=vercel&utm_source=create-turbo"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            href="https://turborepo.dev/docs?utm_source"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
-            Read our docs
-          </a>
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-slate-50 to-slate-100 dark:from-gray-900 dark:to-gray-800">
+      <header className="w-full border-b bg-white/50 dark:bg-gray-900/50 backdrop-blur-sm">
+        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+          <h1 className="text-2xl font-bold font-heading text-gray-800 dark:text-white">
+            📚 My Books
+          </h1>
+          <nav className="flex gap-4">
+            {session ? (
+              <>
+                <Link
+                  href="/dashboard"
+                  className="px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-colors"
+                >
+                  Dashboard
+                </Link>
+                <form action="/api/auth/signout" method="POST">
+                  <button
+                    type="submit"
+                    className="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                  >
+                    Sair
+                  </button>
+                </form>
+              </>
+            ) : (
+              <Link
+                href="/login"
+                className="px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-colors"
+              >
+                Login
+              </Link>
+            )}
+          </nav>
         </div>
-        <Button appName="web" className={styles.secondary}>
-          Open alert
-        </Button>
+      </header>
+
+      <main className="flex-1 container mx-auto px-4 py-16">
+        <div className="max-w-4xl mx-auto text-center space-y-8">
+          <h2 className="text-5xl font-bold font-heading text-gray-900 dark:text-white">
+            Organize sua biblioteca pessoal
+          </h2>
+          <p className="text-xl text-gray-600 dark:text-gray-300">
+            Gerencie seus livros, acompanhe leituras e descubra novas histórias
+          </p>
+
+          <div className="grid md:grid-cols-3 gap-8 mt-16">
+            <div className="p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg">
+              <div className="text-4xl mb-4">📖</div>
+              <h3 className="text-xl font-semibold font-heading mb-2 text-gray-800 dark:text-white">
+                Catálogo Completo
+              </h3>
+              <p className="text-gray-600 dark:text-gray-300">
+                Adicione e organize todos os seus livros em um só lugar
+              </p>
+            </div>
+
+            <div className="p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg">
+              <div className="text-4xl mb-4">📊</div>
+              <h3 className="text-xl font-semibold font-heading mb-2 text-gray-800 dark:text-white">
+                Acompanhamento
+              </h3>
+              <p className="text-gray-600 dark:text-gray-300">
+                Marque livros como lidos, lendo ou para ler
+              </p>
+            </div>
+
+            <div className="p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg">
+              <div className="text-4xl mb-4">⭐</div>
+              <h3 className="text-xl font-semibold font-heading mb-2 text-gray-800 dark:text-white">
+                Avaliações
+              </h3>
+              <p className="text-gray-600 dark:text-gray-300">
+                Avalie e faça anotações sobre suas leituras
+              </p>
+            </div>
+          </div>
+
+          <div className="pt-8">
+            <Link
+              href={session ? "/dashboard" : "/login"}
+              className="inline-block px-8 py-4 text-lg font-semibold bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-lg hover:shadow-xl"
+            >
+              {session ? "Ir para Dashboard" : "Começar Agora"}
+            </Link>
+          </div>
+        </div>
       </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com/templates?search=turborepo&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://turborepo.dev?utm_source=create-turbo"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to turborepo.dev →
-        </a>
+
+      <footer className="w-full border-t bg-white/50 dark:bg-gray-900/50 backdrop-blur-sm">
+        <div className="container mx-auto px-4 py-6 text-center text-gray-600 dark:text-gray-400">
+          <p>© 2026 My Books - Seu gerenciador pessoal de livros</p>
+        </div>
       </footer>
     </div>
   );

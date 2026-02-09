@@ -1,36 +1,112 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/create-next-app).
+# My Books - Web App
 
-## Getting Started
+Frontend do projeto My Books, um gerenciador pessoal de livros.
 
-First, run the development server:
+## 🚀 Tecnologias
+
+- **Next.js 16** - Framework React
+- **Tailwind CSS** - Estilização
+- **NextAuth v5** - Autenticação
+- **TypeScript** - Tipagem estática
+- **Bun** - Runtime e package manager
+
+## 📋 Pré-requisitos
+
+- Bun instalado
+- Node.js 18+
+
+## 🔧 Instalação
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# Instalar dependências
+bun install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🌱 Variáveis de Ambiente
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+O arquivo `.env.local` já está configurado com valores de desenvolvimento:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load Inter, a custom Google Font.
+```env
+NEXTAUTH_SECRET=sua-chave-secreta-aqui-mude-em-producao
+NEXTAUTH_URL=http://localhost:3000
+```
 
-## Learn More
+**⚠️ IMPORTANTE:** Em produção, altere o `NEXTAUTH_SECRET` para uma chave segura.
 
-To learn more about Next.js, take a look at the following resources:
+## 🏃‍♂️ Executar
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+# Desenvolvimento (porta 3000)
+bun run dev
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+# Build
+bun run build
 
-## Deploy on Vercel
+# Produção
+bun run start
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+# Linting
+bun run lint
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+# Type checking
+bun run check-types
+```
+
+Abra [http://localhost:3000](http://localhost:3000) no navegador.
+
+## 📁 Estrutura
+
+```
+app/
+├── login/              # Página de login
+├── dashboard/          # Dashboard principal
+├── api/
+│   └── auth/          # Rotas NextAuth
+├── layout.tsx         # Layout principal
+└── page.tsx           # Página inicial
+
+lib/
+└── auth.ts            # Configuração NextAuth
+
+middleware.ts          # Middleware de autenticação
+```
+
+## 🔐 Autenticação
+
+Atualmente configurado com **Credentials provider** para desenvolvimento.
+
+Para testar, use qualquer email e senha na página de login.
+
+### Produção
+
+Para usar em produção, configure outros providers no arquivo [lib/auth.ts](lib/auth.ts):
+- Google
+- GitHub
+- Azure AD
+- Etc.
+
+## 🎨 Features
+
+✅ Tailwind CSS configurado  
+✅ Dark mode automático  
+✅ Responsive design  
+✅ Autenticação com NextAuth v5  
+✅ TypeScript  
+✅ Fontes otimizadas (Geist Sans e Geist Mono)  
+
+## 📝 TODO
+
+- [ ] Integrar com backend API
+- [ ] Implementar CRUD de livros
+- [ ] Adicionar sistema de busca
+- [ ] Criar página de perfil
+- [ ] Adicionar filtros e ordenação
+- [ ] Implementar upload de capas
+- [ ] Adicionar testes
+
+## 🔗 Links Úteis
+
+- [Next.js Documentation](https://nextjs.org/docs)
+- [Tailwind CSS](https://tailwindcss.com/docs)
+- [NextAuth.js](https://authjs.dev/)
+
