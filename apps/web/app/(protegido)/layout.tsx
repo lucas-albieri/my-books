@@ -9,7 +9,7 @@ export default function ProtectedLayout({
 
     return (
         <div
-            className="w-full h-full flex bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900"
+            className="w-full h-full flex bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900"
         >
             <Sidebar annualGoal={mockAnnualGoal} />
             <div
