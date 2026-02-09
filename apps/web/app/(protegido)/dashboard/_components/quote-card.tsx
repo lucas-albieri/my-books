@@ -11,12 +11,12 @@ interface QuoteCardProps {
 export function QuoteCard({ quote }: QuoteCardProps) {
     return (
         <Card className="bg-gradient-to-br from-indigo-600 to-purple-700 border-0 text-white">
-            <CardContent className="p-6">
-                <Quote className="w-8 h-8 mb-4 opacity-50" />
-                <p className="text-lg italic mb-4 leading-relaxed">
+            <CardContent className="p-4">
+                <Quote className="w-6 h-6 mb-3 opacity-50" />
+                <p className="text-sm italic mb-3 leading-relaxed">
                     "{quote.text}"
                 </p>
-                <p className="text-sm text-white/80">
+                <p className="text-xs text-white/80">
                     — {quote.author}
                 </p>
             </CardContent>

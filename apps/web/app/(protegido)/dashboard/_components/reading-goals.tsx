@@ -15,29 +15,29 @@ interface ReadingGoalsProps {
 
 export function ReadingGoals({ weekly, monthly }: ReadingGoalsProps) {
     const CircularProgress = ({ percentage, label, current, target }: { percentage: number; label: string; current: number; target: number }) => {
-        const radius = 45;
+        const radius = 35;
         const circumference = 2 * Math.PI * radius;
         const strokeDashoffset = circumference - (percentage / 100) * circumference;
 
         return (
             <div className="flex flex-col items-center">
-                <div className="relative w-32 h-32">
-                    <svg className="transform -rotate-90 w-32 h-32">
+                <div className="relative w-24 h-24">
+                    <svg className="transform -rotate-90 w-24 h-24">
                         <circle
-                            cx="64"
-                            cy="64"
+                            cx="48"
+                            cy="48"
                             r={radius}
                             stroke="currentColor"
-                            strokeWidth="8"
+                            strokeWidth="6"
                             fill="none"
                             className="text-gray-200 dark:text-gray-700"
                         />
                         <circle
-                            cx="64"
-                            cy="64"
+                            cx="48"
+                            cy="48"
                             r={radius}
                             stroke="currentColor"
-                            strokeWidth="8"
+                            strokeWidth="6"
                             fill="none"
                             strokeDasharray={circumference}
                             strokeDashoffset={strokeDashoffset}
@@ -46,14 +46,14 @@ export function ReadingGoals({ weekly, monthly }: ReadingGoalsProps) {
                         />
                     </svg>
                     <div className="absolute inset-0 flex items-center justify-center">
-                        <span className="text-2xl font-bold text-gray-900 dark:text-white">
+                        <span className="text-lg font-bold text-gray-900 dark:text-white">
                             {percentage}%
                         </span>
                     </div>
                 </div>
-                <div className="mt-3 text-center">
-                    <p className="font-semibold text-gray-900 dark:text-white">{label}</p>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">
+                <div className="mt-2 text-center">
+                    <p className="text-sm font-semibold text-gray-900 dark:text-white">{label}</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">
                         {current}/{target} {label === "Semanal" ? weekly.unit : monthly.unit}
                     </p>
                 </div>
@@ -63,13 +63,13 @@ export function ReadingGoals({ weekly, monthly }: ReadingGoalsProps) {
 
     return (
         <Card>
-            <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                    <Target className="w-5 h-5" />
+            <CardHeader className="pb-3">
+                <CardTitle className="flex items-center gap-2 text-base">
+                    <Target className="w-4 h-4" />
                     Metas de Leitura
                 </CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="pt-3">
                 <div className="flex justify-around">
                     <CircularProgress
                         percentage={weekly.percentage}

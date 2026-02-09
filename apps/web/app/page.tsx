@@ -1,9 +1,6 @@
 import Link from "next/link";
-import { auth } from "../lib/auth";
 
-export default async function Home() {
-  const session = await auth();
-
+export default function Home() {
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-slate-50 to-slate-100 dark:from-gray-900 dark:to-gray-800">
       <header className="w-full border-b bg-white/50 dark:bg-gray-900/50 backdrop-blur-sm">
@@ -12,31 +9,18 @@ export default async function Home() {
             📚 My Books
           </h1>
           <nav className="flex gap-4">
-            {session ? (
-              <>
-                <Link
-                  href="/dashboard"
-                  className="px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-colors"
-                >
-                  Dashboard
-                </Link>
-                <form action="/api/auth/signout" method="POST">
-                  <button
-                    type="submit"
-                    className="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-                  >
-                    Sair
-                  </button>
-                </form>
-              </>
-            ) : (
-              <Link
-                href="/login"
-                className="px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-colors"
-              >
-                Login
-              </Link>
-            )}
+            <Link
+              href="/dashboard"
+              className="px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-colors"
+            >
+              Dashboard
+            </Link>
+            <Link
+              href="/entrar"
+              className="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+            >
+              Login
+            </Link>
           </nav>
         </div>
       </header>
@@ -84,10 +68,10 @@ export default async function Home() {
 
           <div className="pt-8">
             <Link
-              href={session ? "/dashboard" : "/login"}
+              href="/dashboard"
               className="inline-block px-8 py-4 text-lg font-semibold bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-lg hover:shadow-xl"
             >
-              {session ? "Ir para Dashboard" : "Começar Agora"}
+              Começar Agora
             </Link>
           </div>
         </div>

@@ -24,13 +24,13 @@ export default function proxy(request: NextRequest) {
     // }
 
     // redirect logged users from root to dashboard
-    if (tokenData && pathname === '/') {
-        return NextResponse.redirect(new URL('/dashboard', request.nextUrl))
-    }
+    // if (tokenData && pathname === '/') {
+    //     return NextResponse.redirect(new URL('/dashboard', request.nextUrl))
+    // }
 
-    if (tokenData && NON_AUTH_ROUTES.includes(pathname)) {
-        return NextResponse.redirect(new URL('/dashboard', request.nextUrl))
-    }
+    // if (tokenData && NON_AUTH_ROUTES.includes(pathname)) {
+    //     return NextResponse.redirect(new URL('/dashboard', request.nextUrl))
+    // }
 
     return NextResponse.next()
 }

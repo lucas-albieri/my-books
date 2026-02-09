@@ -15,14 +15,14 @@ export function WeeklyActivity({ activity }: WeeklyActivityProps) {
 
     return (
         <Card>
-            <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                    <BarChart3 className="w-5 h-5" />
+            <CardHeader className="pb-3">
+                <CardTitle className="flex items-center gap-2 text-base">
+                    <BarChart3 className="w-4 h-4" />
                     Atividade Semanal
                 </CardTitle>
             </CardHeader>
-            <CardContent>
-                <div className="flex items-end justify-between h-48 gap-4">
+            <CardContent className="pt-3">
+                <div className="flex items-end justify-between h-32 gap-3">
                     {activity.map((day, index) => {
                         const heightPercentage = (day.pages / maxPages) * 100;
 
@@ -33,12 +33,12 @@ export function WeeklyActivity({ activity }: WeeklyActivityProps) {
                                         className="w-full bg-gradient-to-t from-indigo-600 to-indigo-400 rounded-t-lg transition-all hover:from-indigo-700 hover:to-indigo-500 cursor-pointer group relative"
                                         style={{ height: `${heightPercentage}%` }}
                                     >
-                                        <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-gray-900 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                                        <div className="absolute -top-6 left-1/2 -translate-x-1/2 bg-gray-900 text-white text-[10px] px-1.5 py-0.5 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
                                             {day.pages} páginas
                                         </div>
                                     </div>
                                 </div>
-                                <p className="text-sm text-gray-600 dark:text-gray-400 mt-2 font-medium">
+                                <p className="text-xs text-gray-600 dark:text-gray-400 mt-1.5 font-medium">
                                     {day.day}
                                 </p>
                             </div>

@@ -22,20 +22,20 @@ export function FavoriteBooks({ books }: FavoriteBooksProps) {
 
     return (
         <Card>
-            <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                    <Heart className="w-5 h-5 text-orange-500 fill-orange-500" />
+            <CardHeader className="pb-3">
+                <CardTitle className="flex items-center gap-2 text-base">
+                    <Heart className="w-4 h-4 text-orange-500 fill-orange-500" />
                     Livros Favoritos
                 </CardTitle>
             </CardHeader>
-            <CardContent>
-                <div className="grid grid-cols-4 gap-4">
+            <CardContent className="pt-3">
+                <div className="grid grid-cols-4 gap-3">
                     {books.map((book, index) => (
                         <div key={book.id} className="text-center">
-                            <div className={`w-full aspect-[3/4] bg-gradient-to-br ${gradients[index % gradients.length]} rounded-lg shadow-lg mb-2 hover:scale-105 transition-transform cursor-pointer`}>
+                            <div className={`w-full aspect-[3/4] bg-gradient-to-br ${gradients[index % gradients.length]} rounded-lg shadow-lg mb-1.5 hover:scale-105 transition-transform cursor-pointer`}>
                                 {/* Placeholder para imagem do livro */}
                             </div>
-                            <p className="text-sm font-medium text-gray-700 dark:text-gray-300 truncate">
+                            <p className="text-xs font-medium text-gray-700 dark:text-gray-300 truncate">
                                 {book.title}
                             </p>
                         </div>
