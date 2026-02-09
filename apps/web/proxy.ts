@@ -19,9 +19,9 @@ export default function proxy(request: NextRequest) {
     const tokenData = decodeToken(`${token?.value}`)
 
     // denied non-auth routes
-    if (!NON_AUTH_ROUTES.includes(pathname) && !token) {
-        return NextResponse.redirect(new URL('/entrar', request.nextUrl))
-    }
+    // if (!NON_AUTH_ROUTES.includes(pathname) && !token) {
+    //     return NextResponse.redirect(new URL('/entrar', request.nextUrl))
+    // }
 
     // redirect logged users from root to dashboard
     if (tokenData && pathname === '/') {

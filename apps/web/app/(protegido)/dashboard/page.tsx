@@ -1,115 +1,66 @@
 import { auth } from "../../../lib/auth";
 import { redirect } from "next/navigation";
-import Link from "next/link";
-import { AddBookDialog } from "../../../components/add-book-dialog";
-import { Card, CardContent, CardHeader, CardTitle } from "../../../components/ui/card";
-import { Button } from "../../../components/ui/button";
+import { Sidebar } from "./_components/sidebar";
+import { DashboardHeader } from "./_components/dashboard-header";
+import { WelcomeBanner } from "./_components/welcome-banner";
+import { ReadingProgress } from "./_components/reading-progress";
+import { FavoriteBooks } from "./_components/favorite-books";
+import { ReadingGoals } from "./_components/reading-goals";
+import { WeeklyActivity } from "./_components/weekly-activity";
+import { QuoteCard } from "./_components/quote-card";
+import {
+    mockUser,
+    mockCurrentlyReading,
+    mockFavoriteBooks,
+    mockReadingGoals,
+    mockWeeklyActivity,
+    mockQuote,
+    mockAnnualGoal
+} from "./_core/mock-data";
 
 export default async function DashboardPage() {
     const session = await auth();
 
     if (!session) {
-        redirect("/login");
+        redirect("/entrar");
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-gray-900 dark:to-gray-800">
-            <header className="w-full border-b bg-white/50 dark:bg-gray-900/50 backdrop-blur-sm">
-                <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-                    <h1 className="text-2xl font-bold font-heading text-gray-800 dark:text-white">
-                        📚 My Books
-                    </h1>
-                    <div className="flex items-center gap-4">
-                        <span className="text-gray-600 dark:text-gray-300">
-                            {session.user?.email}
-                        </span>
-                        <form action="/api/auth/signout" method="POST">
-                            <button
-                                type="submit"
-                                className="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-                            >
-                                Sair
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </header>
+        <div className="flex min-h-screen bg-gray-50 dark:bg-gray-900">
+            {/* Sidebar */}
+            <Sidebar annualGoal={mockAnnualGoal} />
 
-            <main className="container mx-auto px-4 py-8">
-                <div className="mb-8">
-                    <h2 className="text-3xl font-bold font-heading text-gray-900 dark:text-white mb-2">
-                        Dashboard
-                    </h2>
-                    <p className="text-gray-600 dark:text-gray-300">
-                        Bem-vindo ao seu gerenciador de livros
-                    </p>
-                </div>
+            {/* Main Content */}
+            <div className="flex-1 flex flex-col">
+                {/* Header */}
+                <DashboardHeader user={mockUser} />
 
-                <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                    <Card>
-                        <CardContent className="p-6">
-                            <div className="flex items-center justify-between mb-4">
-                                <h3 className="text-gray-600 dark:text-gray-400 font-medium">
-                                    Total de Livros
-                                </h3>
-                                <div className="text-3xl">📚</div>
-                            </div>
-                            <p className="text-3xl font-bold text-gray-900 dark:text-white">0</p>
-                        </CardContent>
-                    </Card>
+                {/* Content */}
+                <main className="flex-1 p-8">
+                    <WelcomeBanner
+                        userName={mockUser.name}
+                        pagesReadToday={mockUser.pagesReadToday}
+                    />
 
-                    <Card>
-                        <CardContent className="p-6">
-                            <div className="flex items-center justify-between mb-4">
-                                <h3 className="text-gray-600 dark:text-gray-400 font-medium">
-                                    Lendo
-                                </h3>
-                                <div className="text-3xl">📖</div>
-                            </div>
-                            <p className="text-3xl font-bold text-gray-900 dark:text-white">0</p>
-                        </CardContent>
-                    </Card>
-
-                    <Card>
-                        <CardContent className="p-6">
-                            <div className="flex items-center justify-between mb-4">
-                                <h3 className="text-gray-600 dark:text-gray-400 font-medium">
-                                    Lidos
-                                </h3>
-                                <div className="text-3xl">✅</div>
-                            </div>
-                            <p className="text-3xl font-bold text-gray-900 dark:text-white">0</p>
-                        </CardContent>
-                    </Card>
-
-                    <Card>
-                        <CardContent className="p-6">
-                            <div className="flex items-center justify-between mb-4">
-                                <h3 className="text-gray-600 dark:text-gray-400 font-medium">
-                                    Para Ler
-                                </h3>
-                                <div className="text-3xl">📋</div>
-                            </div>
-                            <p className="text-3xl font-bold text-gray-900 dark:text-white">0</p>
-                        </CardContent>
-                    </Card>
-                </div>
-
-                <Card>
-                    <CardContent className="p-8">
-                        <div className="text-center py-12">
-                            <div className="text-6xl mb-4">📚</div>
-                            <h3 className="text-2xl font-bold font-heading text-gray-900 dark:text-white mb-2">
-                                Nenhum livro ainda
-                            </h3>
-                            <p className="text-gray-600 dark:text-gray-300 mb-6">
-                                Comece adicionando seu primeiro livro à coleção
-                            </p>
-                            <AddBookDialog />
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        {/* Left Column - 2/3 */}
+                        <div className="lg:col-span-2 space-y-6">
+                            <ReadingProgress books={mockCurrentlyReading} />
+                            <FavoriteBooks books={mockFavoriteBooks} />
+                            <WeeklyActivity activity={mockWeeklyActivity} />
                         </div>
-                    </CardContent>
-                </Card>
-            </main>
+
+                        {/* Right Column - 1/3 */}
+                        <div className="space-y-6">
+                            <ReadingGoals
+                                weekly={mockReadingGoals.weekly}
+                                monthly={mockReadingGoals.monthly}
+                            />
+                            <QuoteCard quote={mockQuote} />
+                        </div>
+                    </div>
+                </main>
+            </div>
         </div>
     );
 }
