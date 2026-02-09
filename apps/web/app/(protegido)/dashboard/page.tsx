@@ -1,9 +1,9 @@
-import { auth } from "@/lib/auth";
+import { auth } from "../../../lib/auth";
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { AddBookDialog } from "@/components/add-book-dialog";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { AddBookDialog } from "../../../components/add-book-dialog";
+import { Card, CardContent, CardHeader, CardTitle } from "../../../components/ui/card";
+import { Button } from "../../../components/ui/button";
 
 export default async function DashboardPage() {
     const session = await auth();
