@@ -6,12 +6,13 @@ Frontend do projeto My Books, um gerenciador pessoal de livros.
 
 - **Next.js 16** - Framework React
 - **Tailwind CSS** - Estilização
-- **Ark UI** - Componentes UI headless e acessíveis
+- **shadcn/ui** - Sistema de componentes (Radix UI + Tailwind)
 - **React Hook Form** - Gerenciamento de formulários
 - **NextAuth v5** - Autenticação
 - **TypeScript** - Tipagem estática
 - **Bun** - Runtime e package manager
 - **Google Fonts** - Inter e Poppins
+- **Lucide Icons** - Biblioteca de ícones
 
 ## 📋 Pré-requisitos
 
@@ -114,15 +115,33 @@ Para usar em produção, configure outros providers no arquivo [lib/auth.ts](lib
 ✅ Autenticação com NextAuth v5  
 ✅ TypeScript  
 ✅ Fontes Google (Inter e Poppins)  
-✅ Componentes UI com Ark UI  
+✅ Componentes UI com shadcn/ui  
 ✅ Formulários com React Hook Form  
 ✅ Sistema de validação robusto  
-✅ Componentes reutilizáveis (Button, Input, Card, Dialog, etc)  
+✅ Componentes totalmente customizáveis  
+✅ Acessibilidade com Radix UI  
 
 ## 📚 Documentação
 
-- **[Guia de Componentes](docs/components-guide.md)** - Como usar os componentes UI
-- **[Guia de Fontes](docs/fonts-guide.tsx)** - Configuração e uso das fontes  
+- **[Guia de shadcn/ui](docs/shadcn-guide.md)** - Sistema de componentes completo
+- **[Guia de Componentes](docs/components-guide.md)** - Como usar os componentes
+- **[Guia de Fontes](docs/fonts-guide.tsx)** - Configuração das fontes
+
+## ➕ Adicionar Componentes
+
+Para adicionar novos componentes shadcn/ui:
+
+```bash
+npx shadcn@latest add [component-name]
+
+# Exemplos:
+npx shadcn@latest add dropdown-menu
+npx shadcn@latest add popover
+npx shadcn@latest add toast
+npx shadcn@latest add form
+```
+
+Veja todos os componentes disponíveis em: https://ui.shadcn.com  
 
 ## 📝 TODO
 

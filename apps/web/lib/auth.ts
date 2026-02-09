@@ -50,6 +50,5 @@ export const authConfig = {
     },
 } satisfies NextAuthConfig;
 
-const { handlers, auth, signIn, signOut } = NextAuth(authConfig);
-
-export { handlers, auth, signIn, signOut };
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const { handlers, auth, signIn, signOut } = NextAuth(authConfig) as any;
