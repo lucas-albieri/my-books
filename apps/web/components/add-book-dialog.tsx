@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
 import {
     Dialog,
     DialogTrigger,
@@ -16,13 +18,11 @@ import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Textarea } from "./ui/textarea";
+import { api } from "../lib/api";
+import { bookSchema } from "../lib/schemas";
+import type { z } from "zod";
 
-type BookFormData = {
-    title: string;
-    author: string;
-    rating?: number;
-    notes?: string;
-};
+type BookFormData = z.infer<typeof bookSchema>;
 
 export function AddBookDialog() {
     const [open, setOpen] = useState(false);
@@ -32,13 +32,23 @@ export function AddBookDialog() {
         handleSubmit,
         reset,
         formState: { errors },
-    } = useForm<BookFormData>();
+    } = useForm<BookFormData>({
+        resolver: zodResolver(bookSchema),
+    });
+
+    const addBookMutation = useMutation({
+        mutationFn: async (data: BookFormData) => {
+            return await api.post("books", { json: data }).json();
+        },
+        onSuccess: () => {
+            setOpen(false);
+            reset();
+            // TODO: Invalidar cache e atualizar lista de livros
+        },
+    });
 
     async function onSubmit(data: BookFormData) {
-        console.log("Book data:", data);
-        // TODO: Integrar com API
-        setOpen(false);
-        reset();
+        addBookMutation.mutate(data);
     }
 
     return (
@@ -60,9 +70,7 @@ export function AddBookDialog() {
                         <Input
                             id="title"
                             placeholder="O Senhor dos Anéis"
-                            {...register("title", {
-                                required: "Título é obrigatório",
-                            })}
+                            {...register("title")}
                         />
                         {errors.title && (
                             <p className="text-sm text-destructive">
@@ -76,9 +84,7 @@ export function AddBookDialog() {
                         <Input
                             id="author"
                             placeholder="J.R.R. Tolkien"
-                            {...register("author", {
-                                required: "Autor é obrigatório",
-                            })}
+                            {...register("author")}
                         />
                         {errors.author && (
                             <p className="text-sm text-destructive">
@@ -104,10 +110,7 @@ export function AddBookDialog() {
                             min="1"
                             max="5"
                             placeholder="5"
-                            {...register("rating", {
-                                min: { value: 1, message: "Mínimo 1" },
-                                max: { value: 5, message: "Máximo 5" },
-                            })}
+                            {...register("rating", { valueAsNumber: true })}
                         />
                         {errors.rating && (
                             <p className="text-sm text-destructive">
@@ -116,13 +119,30 @@ export function AddBookDialog() {
                         )}
                     </div>
 
+                    {addBookMutation.error && (
+                        <div className="p-3 rounded-lg bg-destructive/10 border border-destructive/20">
+                            <p className="text-sm text-destructive">
+                                Erro ao adicionar livro. Tente novamente.
+                            </p>
+                        </div>
+                    )}
+
                     <DialogFooter>
                         <DialogClose asChild>
-                            <Button type="button" variant="outline">
+                            <Button
+                                type="button"
+                                variant="outline"
+                                disabled={addBookMutation.isPending}
+                            >
                                 Cancelar
                             </Button>
                         </DialogClose>
-                        <Button type="submit">Adicionar</Button>
+                        <Button
+                            type="submit"
+                            disabled={addBookMutation.isPending}
+                        >
+                            {addBookMutation.isPending ? "Adicionando..." : "Adicionar"}
+                        </Button>
                     </DialogFooter>
                 </form>
             </DialogContent>

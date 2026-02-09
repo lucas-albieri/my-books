@@ -1,35 +1,29 @@
 "use client";
 
-import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Button } from "../../../components/ui/button";
 import { Input } from "../../../components/ui/input";
 import { Label } from "../../../components/ui/label";
-
-type LoginFormData = {
-    email: string;
-    password: string;
-};
+import { loginSchema, type LoginFormData } from "../../../lib/schemas";
 
 export default function LoginPage() {
     const router = useRouter();
-    const [error, setError] = useState("");
-    const [loading, setLoading] = useState(false);
 
     const {
         register,
         handleSubmit,
         formState: { errors },
-    } = useForm<LoginFormData>();
+    } = useForm<LoginFormData>({
+        resolver: zodResolver(loginSchema),
+    });
 
-    async function onSubmit(data: LoginFormData) {
-        setLoading(true);
-        setError("");
-
-        try {
+    const loginMutation = useMutation({
+        mutationFn: async (data: LoginFormData) => {
             const result = await signIn("credentials", {
                 email: data.email,
                 password: data.password,
@@ -37,16 +31,19 @@ export default function LoginPage() {
             });
 
             if (result?.error) {
-                setError("Credenciais inválidas");
-            } else {
-                router.push("/dashboard");
-                router.refresh();
+                throw new Error("Credenciais inválidas");
             }
-        } catch (err) {
-            setError("Ocorreu um erro ao fazer login");
-        } finally {
-            setLoading(false);
-        }
+
+            return result;
+        },
+        onSuccess: () => {
+            router.push("/dashboard");
+            router.refresh();
+        },
+    });
+
+    async function onSubmit(data: LoginFormData) {
+        loginMutation.mutate(data);
     }
 
     return (
@@ -69,16 +66,10 @@ export default function LoginPage() {
                                 id="email"
                                 type="email"
                                 placeholder="seu@email.com"
-                                {...register("email", {
-                                    required: "Email é obrigatório",
-                                    pattern: {
-                                        value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                                        message: "Email inválido",
-                                    },
-                                })}
+                                {...register("email")}
                             />
                             {errors.email && (
-                                <p className="text-sm text-red-600 dark:text-red-400">
+                                <p className="text-sm text-destructive">
                                     {errors.email.message}
                                 </p>
                             )}
@@ -90,29 +81,29 @@ export default function LoginPage() {
                                 id="password"
                                 type="password"
                                 placeholder="••••••••"
-                                {...register("password", {
-                                    required: "Senha é obrigatória",
-                                    minLength: {
-                                        value: 6,
-                                        message: "Senha deve ter no mínimo 6 caracteres",
-                                    },
-                                })}
+                                {...register("password")}
                             />
                             {errors.password && (
-                                <p className="text-sm text-red-600 dark:text-red-400">
+                                <p className="text-sm text-destructive">
                                     {errors.password.message}
                                 </p>
                             )}
                         </div>
 
-                        {error && (
-                            <div className="p-3 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800">
-                                <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
+                        {loginMutation.error && (
+                            <div className="p-3 rounded-lg bg-destructive/10 border border-destructive/20">
+                                <p className="text-sm text-destructive">
+                                    {loginMutation.error.message}
+                                </p>
                             </div>
                         )}
 
-                        <Button type="submit" disabled={loading} className="w-full">
-                            {loading ? "Entrando..." : "Entrar"}
+                        <Button
+                            type="submit"
+                            disabled={loginMutation.isPending}
+                            className="w-full"
+                        >
+                            {loginMutation.isPending ? "Entrando..." : "Entrar"}
                         </Button>
                     </form>
 
